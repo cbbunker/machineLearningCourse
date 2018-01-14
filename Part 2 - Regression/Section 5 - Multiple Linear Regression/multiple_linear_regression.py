@@ -39,3 +39,19 @@ regressor.fit(X_train, y_train)
 
 # Predicting the Test set results
 y_pred = regressor.predict(X_test)
+
+y_diff = y_pred - y_test
+y_diff_percent =100* (y_pred - y_test)/y_test
+
+# Building the optimal modfel using Backware Elimination
+import statsmodels.formula.api as sm
+#Adding the X0 variable since statsmodels doesn't take b0 into account
+X = np.append(arr = np.ones((50,1)).astype(int), values=X, axis= 1)
+X_opt  = X[:,[0,1,2,3,4,5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
+X_opt  = X[:,[0,1,3,4,5]]
+regressor_OLS = sm.OLS(endog = y, exog = X_opt).fit()
+regressor_OLS.summary()
+
